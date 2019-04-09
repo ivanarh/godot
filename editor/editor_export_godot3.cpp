@@ -398,7 +398,7 @@ static const char *prop_renames[][2] = {
 	{ "theme/theme", "theme" }, // Control
 	{ "transform/local", "transform" }, // Spatial
 	{ "transform/pos", "position" }, // Node2D
-	{ "transform/rotation", "rotation_degrees" }, // Spatial
+	{ "transform/rotation", "rotation" }, // Spatial
 	{ "transform/rotation_rad", "rotation" }, // Spatial
 	{ "transform/rot", "rotation_degrees" }, // Node2D
 	{ "transform/scale", "scale" }, // Node2D, Spatial
@@ -536,7 +536,8 @@ void EditorExportGodot3::_rename_properties(const String &p_type, List<ExportDat
 				String path_value = E->get().value;
 
 				// Check if it's a rotation and save the track number to fix its assigned values
-				if (path_value.find("transform/rot") != -1) {
+				// "transform/rotation" must not be matched. So checking if it ends with.
+				if (path_value.ends_with("transform/rot")) {
 					// We found a track 'path' with a "transform/rot" NodePath, its 'keys' need to be fixed
 					found_track_number = prop_name.get_slice("/", 1);
 					print_line("Found Animation track with 2D rotations: " + prop_name + " = " + path_value);
